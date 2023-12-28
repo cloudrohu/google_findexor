@@ -50,6 +50,19 @@ class LocalityAdmin(DraggableMPTTAdmin):
     list_display_links = ('indented_title',)
     prepopulated_fields = {'slug': ('title',)}    
   
+class CategoryApproxInline(admin.TabularInline):
+    model = Approx
+    extra = 1
+    show_change_link = True
+
+@admin_thumbnails.thumbnail('image')
+class ApproxAdmin(admin.ModelAdmin):
+    list_display = ['id', 'category', 'locality','city', 'title', ]
+    list_filter = [ 'category', 'locality','city', ]
+
+    search_fields = ['title']
+    list_per_page = 30 
+
 
 @admin_thumbnails.thumbnail('image')
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -58,6 +71,7 @@ class CategoryAdmin(DraggableMPTTAdmin):
                     )
     list_display_links = ('indented_title',)
     prepopulated_fields = {'slug': ('title',)}    
+    inlines = [CategoryApproxInline,]
 
 
 @admin_thumbnails.thumbnail('image')
@@ -69,6 +83,9 @@ class CompanyAdmin(admin.ModelAdmin):
     list_per_page = 30 
 
 
+
+
+admin.site.register(Approx,ApproxAdmin)
 admin.site.register(City,CityAdmin)
 admin.site.register(Locality,LocalityAdmin)
 admin.site.register(Category,CategoryAdmin)
