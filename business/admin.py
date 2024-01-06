@@ -49,6 +49,8 @@ class LocalityAdmin(DraggableMPTTAdmin):
     list_display = ('id','city', 'tree_actions', 'indented_title', 'image_thumbnail','slug',
                     )
     list_display_links = ('indented_title',)
+    list_filter = ('locality','city',) 
+
     search_fields = ['title']
     list_per_page = 30 
     prepopulated_fields = {'slug': ('title',)}    
@@ -73,6 +75,7 @@ class CategoryAdmin(DraggableMPTTAdmin):
     list_display = ('id','tree_actions', 'indented_title', 'image_thumbnail','slug',
                     )
     list_display_links = ('indented_title',)
+    
     list_per_page = 30 
     prepopulated_fields = {'slug': ('title',)}    
     inlines = [CategoryApproxInline,]
