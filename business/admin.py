@@ -14,6 +14,7 @@ class CityAdmin(DraggableMPTTAdmin):
                     'related_locality_count','related_company_count',)
     list_display_links = ('indented_title',)
     list_per_page = 30 
+    search_fields = ['title']
     prepopulated_fields = {'slug': ('title',)}
     
     def get_queryset(self, request):
@@ -48,6 +49,8 @@ class LocalityAdmin(DraggableMPTTAdmin):
     list_display = ('id','city', 'tree_actions', 'indented_title', 'image_thumbnail','slug',
                     )
     list_display_links = ('indented_title',)
+    search_fields = ['title']
+    list_per_page = 30 
     prepopulated_fields = {'slug': ('title',)}    
   
 class CategoryApproxInline(admin.TabularInline):
@@ -70,6 +73,7 @@ class CategoryAdmin(DraggableMPTTAdmin):
     list_display = ('id','tree_actions', 'indented_title', 'image_thumbnail','slug',
                     )
     list_display_links = ('indented_title',)
+    list_per_page = 30 
     prepopulated_fields = {'slug': ('title',)}    
     inlines = [CategoryApproxInline,]
 
