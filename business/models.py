@@ -152,6 +152,8 @@ class Company(models.Model):
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand 
     address = models.CharField(max_length=500,null=True , blank=True)
     keywords = models.CharField(max_length=255,null=True , blank=True)
+    website = models.CharField(max_length=255,null=True , blank=True)
+    google_map = models.CharField(max_length=1000,null=True , blank=True)
     description = models.TextField(max_length=5000,null=True , blank=True)
     image=models.ImageField(blank=True,upload_to='images/')
     slug = models.SlugField(unique=True , null=True , blank=True)
@@ -181,4 +183,21 @@ class Approx(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+
+class SocialSite(models.Model):
+    title = models.CharField(max_length=50,unique=True)   
+    code = models.CharField(max_length=50,unique=True,null=True , blank=True)   
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.title
+
+class SocialLink(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
+    link = models.CharField(max_length=50,unique=True)    
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title

@@ -60,6 +60,12 @@ class CategoryApproxInline(admin.TabularInline):
     extra = 1
     show_change_link = True
 
+class CompanySocialInline(admin.TabularInline):
+    model = SocialLink
+    extra = 1
+    show_change_link = True
+
+
 @admin_thumbnails.thumbnail('image')
 class ApproxAdmin(admin.ModelAdmin):
     list_display = ['id', 'category', 'locality','city', 'title', ]
@@ -68,6 +74,15 @@ class ApproxAdmin(admin.ModelAdmin):
     search_fields = ['title']
     list_per_page = 30 
 
+class SocialSiteAdmin(admin.ModelAdmin):
+    list_display = ['id','title','code']
+    search_fields = ['title']
+    list_per_page = 30 
+
+class SocialLinkAdmin(admin.ModelAdmin):
+    list_display = ['id','company','link']
+    search_fields = ['title']
+    list_per_page = 30 
 
 @admin_thumbnails.thumbnail('image')
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -83,15 +98,17 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
 @admin_thumbnails.thumbnail('image')
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['id', 'category', 'title', 'contact_person','contact_no','email','address','locality','city','image_thumbnail']    
+    list_display = ['id', 'category', 'title', 'contact_person','contact_no','email','website','address','locality','city','image_thumbnail']    
     list_editable=('title', 'contact_person','contact_no','email','address','locality','city') 
-    list_filter = ('locality','city',) 
+    list_filter = ('locality','city','category',) 
     search_fields = ['title']
     list_per_page = 30 
 
 
 
 
+admin.site.register(SocialSite,SocialSiteAdmin)
+admin.site.register(SocialLink,SocialLinkAdmin)
 admin.site.register(Approx,ApproxAdmin)
 admin.site.register(City,CityAdmin)
 admin.site.register(Locality,LocalityAdmin)
