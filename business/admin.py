@@ -90,7 +90,7 @@ class SocialLinkAdmin(admin.ModelAdmin):
     list_per_page = 30 
 
 class ErrorAdmin(admin.ModelAdmin):
-    list_display = ['id','company','title','error']
+    list_display = ['id','title','error']
     search_fields = ['title']
     list_per_page = 30 
 
