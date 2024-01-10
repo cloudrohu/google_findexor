@@ -200,7 +200,7 @@ class SocialLink(models.Model):
     update_at=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.link
     
 class Error(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
