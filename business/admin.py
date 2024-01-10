@@ -65,6 +65,11 @@ class CompanySocialInline(admin.TabularInline):
     extra = 1
     show_change_link = True
 
+class CompanyErrorInline(admin.TabularInline):
+    model = Error
+    extra = 1
+    show_change_link = True
+
 
 @admin_thumbnails.thumbnail('image')
 class ApproxAdmin(admin.ModelAdmin):
@@ -81,6 +86,11 @@ class SocialSiteAdmin(admin.ModelAdmin):
 
 class SocialLinkAdmin(admin.ModelAdmin):
     list_display = ['id','company','link']
+    search_fields = ['title']
+    list_per_page = 30 
+
+class ErrorAdmin(admin.ModelAdmin):
+    list_display = ['id','company','error']
     search_fields = ['title']
     list_per_page = 30 
 
@@ -103,6 +113,7 @@ class CompanyAdmin(admin.ModelAdmin):
     list_filter = ('locality','city','category',) 
     search_fields = ['title']
     list_per_page = 30 
+    inlines = [CompanySocialInline,CompanyErrorInline]
 
 
 
@@ -114,6 +125,7 @@ admin.site.register(City,CityAdmin)
 admin.site.register(Locality,LocalityAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Company,CompanyAdmin)
+admin.site.register(Error,ErrorAdmin)
 
 
 

@@ -201,3 +201,12 @@ class SocialLink(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Error(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
+    error = models.CharField(max_length=50,unique=True)    
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
