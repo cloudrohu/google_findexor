@@ -140,10 +140,17 @@ class Category(MPTTModel):
             k = k.parent
         return ' / '.join(full_path[::-1])
 
+class Call_Status(models.Model):
+    title = models.CharField(max_length=500,blank=True, null=True,)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
 
 class Company(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
+    call_status = models.ForeignKey(Call_Status, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
     title = models.CharField(max_length=50,unique=True)
     contact_person = models.CharField(max_length=255,null=True , blank=True)
     contact_no = models.CharField(max_length=255,null=True , blank=True)
@@ -166,6 +173,9 @@ class Company(models.Model):
     def save(self , *args , **kwargs):
         self.slug = slugify(self.title)
         super(Company ,self).save(*args , **kwargs)
+
+    class Meta:
+        verbose_name_plural='1. Company'
 
     def get_absolute_url(self):
         return reverse('company_detail', kwargs={'slug': self.slug})
@@ -212,3 +222,45 @@ class Error(models.Model):
 
     def __str__(self):
         return self.title
+
+# -------------------------------------------------------------------------------------------------------------
+class Follow_Up(models.Model):
+    company = models.ForeignKey(Company,blank=True, null=True , on_delete=models.CASCADE)
+    follow_up = models.DateTimeField(blank=True, null=True,)
+    comment = models.CharField(max_length=500,blank=True, null=True,)
+
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment + ',' + self.company.title
+    
+    class Meta:
+        verbose_name_plural='2. Follow_Up'
+
+
+class Meeting(models.Model):
+    company = models.ForeignKey(Company,blank=True, null=True , on_delete=models.CASCADE)
+    meeting = models.DateTimeField(null=True, blank=True)
+    comment = models.CharField(max_length=500,blank=True, null=True,)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment + ',' + self.company.title
+    
+    class Meta:
+        verbose_name_plural='3. Meeting'
+    
+class Visit(models.Model):
+    company = models.ForeignKey(Company,blank=True, null=True , on_delete=models.CASCADE)
+    comment = models.CharField(max_length=500,blank=True, null=True,)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment + ',' + self.company.title
+    
+    class Meta:
+        verbose_name_plural='4. Visit'
+#-------------------------------------------------------------------------------------------------------

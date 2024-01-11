@@ -70,6 +70,20 @@ class CompanyErrorInline(admin.TabularInline):
     extra = 1
     show_change_link = True
 
+class Follow_UpInline(admin.TabularInline):
+    model = Follow_Up
+    extra = 1
+    show_change_link = True
+
+class MeetingInline(admin.TabularInline):
+    model = Meeting
+    extra = 1
+    show_change_link = True
+
+class VisitInline(admin.TabularInline):
+    model = Visit
+    extra = 1
+    show_change_link = True
 
 @admin_thumbnails.thumbnail('image')
 class ApproxAdmin(admin.ModelAdmin):
@@ -113,7 +127,7 @@ class CompanyAdmin(admin.ModelAdmin):
     list_filter = ('locality','city','category',) 
     search_fields = ['title']
     list_per_page = 30 
-    inlines = [CompanySocialInline,CompanyErrorInline]
+    inlines = [CompanySocialInline,CompanyErrorInline,Follow_UpInline,MeetingInline,VisitInline]
 
 
 
@@ -125,7 +139,11 @@ admin.site.register(City,CityAdmin)
 admin.site.register(Locality,LocalityAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Company,CompanyAdmin)
-admin.site.register(Error,ErrorAdmin)
+admin.site.register(Call_Status)
+admin.site.register(Follow_Up)
+admin.site.register(Meeting)
+admin.site.register(Visit)
+
 
 
 
