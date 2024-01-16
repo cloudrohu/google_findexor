@@ -248,7 +248,7 @@ class Meeting(models.Model):
     update_at=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.comment + ',' + self.company.title
+        return self.comment 
     
     class Meta:
         verbose_name_plural='3. Meeting'
@@ -260,7 +260,7 @@ class Visit(models.Model):
     update_at=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.comment + ',' + self.company.title
+        return self.comment 
     
     class Meta:
         verbose_name_plural='4. Visit'
