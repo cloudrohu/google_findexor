@@ -47,5 +47,40 @@
     </div>
 </section>
 
+<br>
+<!-- Find Comfort Place -->
+<section id="comfort-place" class="comfort-place pb30 bb1">
+    <div class="container">
 
- {% endblock %}
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="main-title text-center">
+                    <h2>Find a Place That Fits Your Comfort</h2>
+                    <p>Explore the greates places in the city. You won’t be disappointed.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">            
+            {% for rs in category %}
+            <div class="col-sm-2 col-lg-2">
+                <div class="icon_hvr_img_box" style="background-image: url({{rs.image.url}});">
+                    <div class="overlay">
+                        <div class="icon"><i class="{{rs.keywords}}"></i></div>
+                        <div class="details">
+                            <h4>{{rs.title}}</h4>
+                            <p>{{rs.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+</section>
+<br>
+<!-- Property Cities -->
+
+<br>
+{% endblock %}
