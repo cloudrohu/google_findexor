@@ -85,6 +85,18 @@ class VisitInline(admin.TabularInline):
     extra = 1
     show_change_link = True
 
+
+class ImagesInline(admin.TabularInline):
+    model = Images
+    extra = 1
+    show_change_link = True
+
+
+class FaqInline(admin.TabularInline):
+    model = Faq
+    extra = 1
+    show_change_link = True
+
 @admin_thumbnails.thumbnail('image')
 class ApproxAdmin(admin.ModelAdmin):
     list_display = ['id', 'category', 'locality','city', 'title', ]
@@ -108,6 +120,16 @@ class ErrorAdmin(admin.ModelAdmin):
     search_fields = ['title']
     list_per_page = 30 
 
+
+class FaqAdmin(admin.ModelAdmin):
+    list_display = ['id','company','questions','answers']
+    list_per_page = 30 
+
+class imagesAdmin(admin.ModelAdmin):
+    list_display = ['id']
+
+    list_per_page = 30 
+
 @admin_thumbnails.thumbnail('image')
 class CategoryAdmin(DraggableMPTTAdmin):
     mptt_indent_field = "title"
@@ -122,27 +144,28 @@ class CategoryAdmin(DraggableMPTTAdmin):
 
 @admin_thumbnails.thumbnail('image')
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['id', 'category', 'title', 'contact_person','contact_no','email','website','address','locality','city','image_thumbnail']    
-    list_editable=('title', 'contact_person','contact_no','email','address','locality','city') 
+    list_display = ['id', 'image_thumbnail', 'title','category', 'contact_person','contact_no','email','website','address','locality','city','create_at','update_at','updated_by','created_by','updated_by','created_by']    
+    
     list_filter = ('locality','city','category',) 
     search_fields = ['title']
     list_per_page = 30 
-    inlines = [CompanySocialInline,CompanyErrorInline,Follow_UpInline,MeetingInline,VisitInline]
+    inlines = [CompanySocialInline,CompanyErrorInline,Follow_UpInline,MeetingInline,VisitInline,ImagesInline,FaqInline]
 
 
 
-
-admin.site.register(SocialSite,SocialSiteAdmin)
 admin.site.register(SocialLink,SocialLinkAdmin)
 admin.site.register(Approx,ApproxAdmin)
 admin.site.register(City,CityAdmin)
 admin.site.register(Locality,LocalityAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Company,CompanyAdmin)
-admin.site.register(Call_Status)
+
 admin.site.register(Follow_Up)
 admin.site.register(Meeting)
 admin.site.register(Visit)
+admin.site.register(Faq,FaqAdmin)
+admin.site.register(Images,imagesAdmin)
+
 
 
 

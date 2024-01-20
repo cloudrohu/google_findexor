@@ -18,13 +18,10 @@
                                     <div class="search_option_two">
                                         <div class="candidate_revew_select">
                                             <select class="selectpicker w100 show-tick">
-                                                <option>All Cities</option>
-                                                <option>Apartment</option>
-                                                <option>Bungalow</option>
-                                                <option>Condo</option>
-                                                <option>House</option>
-                                                <option>Land</option>
-                                                <option>Single Family</option>
+                                                <option>Select Cities</option>
+                                                {% for rs in city %}
+                                                <option>{{rs.title}}</option>
+                                                {% endfor %}
                                             </select>
                                         </div>
                                     </div>

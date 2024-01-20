@@ -11,7 +11,7 @@ from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 from django.utils.text import slugify
 
-
+from utility.models import Find_Form, Call_Status,SocialSite
 
 
 class City(MPTTModel):
@@ -140,17 +140,10 @@ class Category(MPTTModel):
             k = k.parent
         return ' / '.join(full_path[::-1])
 
-class Call_Status(models.Model):
-    title = models.CharField(max_length=500,blank=True, null=True,)
-    create_at=models.DateTimeField(auto_now_add=True)
-    update_at=models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.title
-
 class Company(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
     call_status = models.ForeignKey(Call_Status, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
+    find_form = models.ForeignKey(Find_Form, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
     title = models.CharField(max_length=50,unique=True)
     contact_person = models.CharField(max_length=255,null=True , blank=True)
     contact_no = models.CharField(max_length=255,null=True , blank=True)
@@ -166,6 +159,14 @@ class Company(models.Model):
     slug = models.SlugField(unique=True , null=True , blank=True)
     create_at=models.DateTimeField(auto_now_add=True)
     update_at=models.DateTimeField(auto_now=True)
+    updated_by=models.ForeignKey(User, related_name='updated_by_user',on_delete=models.CASCADE,null=True,blank=True,)
+    created_by=models.ForeignKey(User, related_name='created_by_user',on_delete=models.CASCADE,null=True,blank=True,)
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.created_by = request.user
+        obj.updated_by = request.user
+        return super().save_model(request, obj, form, change)
 
     def __str__(self):
         return self.title
@@ -194,14 +195,6 @@ class Approx(models.Model):
     def __str__(self):
         return self.title
 
-
-class SocialSite(models.Model):
-    title = models.CharField(max_length=50,unique=True)   
-    code = models.CharField(max_length=50,unique=True,null=True , blank=True)   
-    create_at=models.DateTimeField(auto_now_add=True)
-    update_at=models.DateTimeField(auto_now=True)
-    def __str__(self):
-        return self.title
 
 class SocialLink(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True,blank=True) #many to one relation with Brand
@@ -238,7 +231,23 @@ class Follow_Up(models.Model):
     class Meta:
         verbose_name_plural='2. Follow_Up'
 
+class Images(models.Model):
+    product=models.ForeignKey(Company,on_delete=models.CASCADE)
+    title = models.CharField(max_length=50,blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
 
+    def __str__(self):
+        return self.title
+    
+class Faq(models.Model):
+    company=models.ForeignKey(Company,on_delete=models.CASCADE)
+    questions = models.CharField(max_length=500,blank=True)
+    answers = models.TextField(blank=True,)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.questions
 
 class Meeting(models.Model):
     company = models.ForeignKey(Company,blank=True, null=True , on_delete=models.CASCADE)
@@ -256,6 +265,7 @@ class Meeting(models.Model):
 class Visit(models.Model):
     company = models.ForeignKey(Company,blank=True, null=True , on_delete=models.CASCADE)
     comment = models.CharField(max_length=500,blank=True, null=True,)
+    visit_date=models.DateTimeField(auto_now_add=True,)
     create_at=models.DateTimeField(auto_now_add=True)
     update_at=models.DateTimeField(auto_now=True)
 
